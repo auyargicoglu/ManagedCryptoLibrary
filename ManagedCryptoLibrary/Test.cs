@@ -146,25 +146,25 @@ namespace ManagedCryptoLibrary
             Console.WriteLine(g1.DumpArray());
 
             byte[] gAModP0 = null;
-            cryptoEngine0.StartDiffieHellman(ref gAModP0);
+            cryptoEngine0.StartDiffieHellman(out gAModP0);
 
             Console.WriteLine("gAModP0:");
             Console.WriteLine(gAModP0.DumpArray());
 
             byte[] gAModP1 = null;
-            cryptoEngine1.StartDiffieHellman(ref gAModP1);
+            cryptoEngine1.StartDiffieHellman(out gAModP1);
 
             Console.WriteLine("gAModP1:");
             Console.WriteLine(gAModP1.DumpArray());
 
             byte[] sessionKey0 = null;
-            cryptoEngine0.GenerateDiffieHellmanSessionKey(gAModP1, ref sessionKey0);
+            cryptoEngine0.GenerateDiffieHellmanSessionKey(gAModP1, out sessionKey0);
 
             Console.WriteLine("sessionKey0:");
             Console.WriteLine(sessionKey0.DumpArray());
 
             byte[] sessionKey1 = null;
-            cryptoEngine1.GenerateDiffieHellmanSessionKey(gAModP0, ref sessionKey1);
+            cryptoEngine1.GenerateDiffieHellmanSessionKey(gAModP0, out sessionKey1);
 
             Console.WriteLine("sessionKey1:");
             Console.WriteLine(sessionKey1.DumpArray());
@@ -260,19 +260,19 @@ namespace ManagedCryptoLibrary
             cryptoEngine1.ExportPandG(ref p1, ref g1);
 
             byte[] gAModP0 = null;
-            cryptoEngine0.StartDiffieHellman(ref gAModP0);
+            cryptoEngine0.StartDiffieHellman(out gAModP0);
 
             byte[] gAModP1 = null;
-            cryptoEngine1.StartDiffieHellman(ref gAModP1);
+            cryptoEngine1.StartDiffieHellman(out gAModP1);
 
             byte[] sessionKey0 = null;
-            cryptoEngine0.GenerateDiffieHellmanSessionKey(gAModP1, ref sessionKey0);
+            cryptoEngine0.GenerateDiffieHellmanSessionKey(gAModP1, out sessionKey0);
 
             Console.WriteLine("sessionKey0:");
             Console.WriteLine(sessionKey0.DumpArray());
 
             byte[] sessionKey1 = null;
-            cryptoEngine1.GenerateDiffieHellmanSessionKey(gAModP0, ref sessionKey1);
+            cryptoEngine1.GenerateDiffieHellmanSessionKey(gAModP0, out sessionKey1);
 
             Console.WriteLine("sessionKey1:");
             Console.WriteLine(sessionKey1.DumpArray());

@@ -203,9 +203,10 @@ namespace ManagedCryptoLibrary
             return true;
         }
 
-        public bool StartDiffieHellman(ref byte[] gAModP)
+        public bool StartDiffieHellman(out byte[] gAModP)
         {
             CryptoError error;
+            gAModP = null;
 
             error = GenerateKeyPair();
             if (error != CryptoError.NO_ERROR)
@@ -219,10 +220,9 @@ namespace ManagedCryptoLibrary
             return true;
         }
 
-        public bool GenerateDiffieHellmanSessionKey(byte[] gBModP, ref byte[] sessionKey)
+        public bool GenerateDiffieHellmanSessionKey(byte[] gBModP, out byte[] sessionKey)
         {
             CryptoError error;
-
             sessionKey = null;
 
             if (gBModP == null)

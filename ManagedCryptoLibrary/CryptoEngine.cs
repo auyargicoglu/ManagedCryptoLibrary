@@ -138,14 +138,14 @@ namespace ManagedCryptoLibrary
             return diffieHellman.ExportPandG(ref p, ref g);
         }
 
-        public bool StartDiffieHellman(ref byte[] gAModP)
+        public bool StartDiffieHellman(out byte[] gAModP)
         {
-            return diffieHellman.StartDiffieHellman(ref gAModP);
+            return diffieHellman.StartDiffieHellman(out gAModP);
         }
 
-        public bool GenerateDiffieHellmanSessionKey(byte[] gBModP, ref byte[] sessionKey)
+        public bool GenerateDiffieHellmanSessionKey(byte[] gBModP, out byte[] sessionKey)
         {
-            return diffieHellman.GenerateDiffieHellmanSessionKey(gBModP, ref sessionKey);
+            return diffieHellman.GenerateDiffieHellmanSessionKey(gBModP, out sessionKey);
         }
 
         #endregion

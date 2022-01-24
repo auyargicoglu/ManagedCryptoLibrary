@@ -1,0 +1,68 @@
+﻿@page "/testdiffiehellman"
+
+@using BlazorTesterForManagedCryptoLibrary.Shared
+@using ManagedCryptoLibrary
+@using System.Text.Json
+
+@inject HttpClient Http
+@inject NavigationManager iNavigationManager
+
+@if ((sessionKey == null) && (keyGenerating == true))
+{
+    <p><em>Session key generating ...</em></p>
+}
+else if (sessionKey == null)
+{
+    <button type="submit" @onclick="@(async () => { await GenerateSessionKey(); })">Generate Session Key</button>
+}
+else
+{
+    <label>Session Key :</label>
+    <br />
+    <input readonly type="text" @bind="@sessionKeySt" style="width:100%;" />
+    <br />
+}
+
+@code {
+
+    private CCryptoEngine engine = null;
+
+    private byte[] sessionKey = null;
+
+    private string sessionKeySt = "";
+
+    private bool keyGenerating = false;
+
+    protected override void OnInitialized()
+    {
+        engine = new CCryptoEngine("Blazor Client Side Transient Crypto Engine", (int)DateTime.Now.ToFileTimeUtc(), "diffie-hellman-group1");
+    }
+
+    protected async Task GenerateSessionKey()
+    {
+        keyGenerating = true;
+        StateHasChanged();
+        await Task.Delay(100);
+
+        engine.StartDiffieHellman(out byte[] gAModP);
+        Console.WriteLine("gAModP :");
+        Console.WriteLine(gAModP.DumpArray());
+
+        string gAModPSt = "";
+        for (int i = 0; i < gAModP.Length; i++)
+            gAModPSt += gAModP[i].ToString("X2");
+
+        string navigationSt = $"/DiffieHellman/PerformDiffeHellman?gBModPSt={gAModPSt}";
+        byte[] gBModP = await Http.GetFromJsonAsync<byte[]>(navigationSt);
+
+        engine.GenerateDiffieHellmanSessionKey(gBModP, out sessionKey);
+        keyGenerating = false;
+
+        sessionKeySt = sessionKey.DumpArray();
+        Console.WriteLine("sessionKey :");
+        Console.WriteLine(sessionKeySt);
+
+        StateHasChanged();
+    }
+
+}
