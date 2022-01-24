@@ -5,6 +5,18 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagedCryptoLibrary", "ManagedCryptoLibrary\ManagedCryptoLibrary.csproj", "{4DEF43B2-D193-41EF-809F-1FBCEC0E4EBE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTesterForManagedCryptoLibrary.Client", "Client\BlazorTesterForManagedCryptoLibrary.Client.csproj", "{ADD65FF9-243C-4811-A699-225D1474B726}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTesterForManagedCryptoLibrary.Server", "Server\BlazorTesterForManagedCryptoLibrary.Server.csproj", "{FDA986E7-479C-4A94-B53A-B7B5E1E685D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTesterForManagedCryptoLibrary.Shared", "Shared\BlazorTesterForManagedCryptoLibrary.Shared.csproj", "{71F2AFA1-044B-46D9-9069-CEEEBB81DDC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D784513-D49E-45F6-BA43-842CCE55AC26}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +27,18 @@ Global
 		{4DEF43B2-D193-41EF-809F-1FBCEC0E4EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DEF43B2-D193-41EF-809F-1FBCEC0E4EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DEF43B2-D193-41EF-809F-1FBCEC0E4EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD65FF9-243C-4811-A699-225D1474B726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD65FF9-243C-4811-A699-225D1474B726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD65FF9-243C-4811-A699-225D1474B726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD65FF9-243C-4811-A699-225D1474B726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA986E7-479C-4A94-B53A-B7B5E1E685D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA986E7-479C-4A94-B53A-B7B5E1E685D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA986E7-479C-4A94-B53A-B7B5E1E685D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA986E7-479C-4A94-B53A-B7B5E1E685D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71F2AFA1-044B-46D9-9069-CEEEBB81DDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71F2AFA1-044B-46D9-9069-CEEEBB81DDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71F2AFA1-044B-46D9-9069-CEEEBB81DDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71F2AFA1-044B-46D9-9069-CEEEBB81DDC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
