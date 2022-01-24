@@ -1,5 +1,9 @@
 ﻿@page "/fetchdata"
+
 @using BlazorTesterForManagedCryptoLibrary.Shared
+@using ManagedCryptoLibrary
+@using System.Text.Json
+
 @inject HttpClient Http
 
 <h1>Weather forecast</h1>
@@ -40,7 +44,30 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        byte[] cryptedStream = await Http.GetFromJsonAsync<byte[]>("WeatherForecast");
+
+        CCryptoEngine cryptoEngine = new CCryptoEngine("Blazor Client Side Transient Crypto Engine", (int)DateTime.Now.ToFileTimeUtc(), "diffie-hellman-group14");
+
+        // Lets use a predetermined key here, later we will generate our key using DiffeHellman
+        byte[] key = new byte[CCryptoEngine.AesKeySize];
+        for (int i = 0; i < key.Length; i++)
+            key[i] = (byte)(i * i + i + 0x43);
+
+
+        byte[] iv = cryptedStream.SubArray(0, CCryptoEngine.AesIvSize);
+        byte[] jsonArray = cryptedStream.SubArray(CCryptoEngine.AesIvSize, cryptedStream.Length - CCryptoEngine.AesIvSize);
+
+        Console.WriteLine("IV:");
+        Console.WriteLine(iv.DumpArray());
+        Console.WriteLine("Data :");
+        Console.WriteLine(jsonArray.DumpArray());
+
+        cryptoEngine.AesEndecrypt(iv, key, jsonArray, 0, jsonArray.Length);
+
+        Console.WriteLine("Decrypted Data :");
+        Console.WriteLine(jsonArray.DumpArray());
+
+        forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(jsonArray);
     }
 
 }

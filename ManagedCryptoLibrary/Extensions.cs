@@ -15,7 +15,7 @@
 
 using System;
 
-internal static class Extensions
+public static class Extensions
 {
     #region Array Template Functions
 

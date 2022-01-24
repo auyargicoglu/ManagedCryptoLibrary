@@ -1,0 +1,175 @@
+﻿@page "/ecc"
+
+@using ManagedCryptoLibrary
+@using System.Text.Json
+
+@if ((generatingKeys == false) && (eccPrivateKeySt == null))
+{
+    <p><em>Press button to generate elliptic curve keys.</em></p>
+    <br />
+    <button type="submit" @onclick="@(async () => {await GenerateECCKeys(); })">Generate Keys</button>
+    <hr />
+}
+
+@if ((generatingKeys == true) && (eccPrivateKeySt == null))
+{
+    <p><em>Generating Elliptic Curve Keys ...</em></p>
+    <hr />
+}
+
+@if (eccPrivateKeySt != null)
+{
+    <label>Private Key :</label>
+    <br />
+    <input readonly type="text" @bind="@eccPrivateKeySt" style="width:100%;" />
+    <hr />
+
+    <label>Public Key :</label>
+    <br />
+    <input readonly type="text" @bind="@eccPublicKeySt" style="width:100%;" />
+    <hr />
+
+    <label>Enter your message to be signed :</label>
+    <br />
+    <input type="text" @bind="@message" style="width:100%;" />
+    <br />
+
+    @if (message != null)
+    {
+        @if (message.Length > 0)
+        {
+            <button type="submit" @onclick="@(async () => { await Sign(); })">Sign</button>
+            <hr />
+        }
+        else
+        {
+            <hr />
+        }
+    }
+}
+
+@if (signing == true)
+{
+    <p><em>Signing ...</em></p>
+    <hr />
+}
+
+@if ((signatureSt != null) && (message != null))
+{
+    @if ((signatureSt.Length > 0) && (message.Length > 0))
+    {
+        <label>Signature :</label>
+        <br />
+        <input readonly type="text" @bind="@signatureSt" style="width:100%;" />
+        <br />
+        <button type="submit" @onclick="@(async () => { await Verify(); })">Verify</button>
+        <br />
+    }
+
+    @if (verifying == true)
+    {
+        <p><em>Verifiying ...</em></p>
+        <hr />
+    }
+    else if (verified == 0)
+    {
+        <p>Verification not checked</p>
+        <hr />
+    }
+    else if (verified > 0)
+    {
+        <p>Verified</p>
+        <hr />
+    }
+    else
+    {
+        <p>Verification Failed</p>
+        <hr />
+    }
+
+}
+
+
+@code {
+
+    private CCryptoEngine engine = null;
+
+    private string eccPrivateKeySt = null;
+
+    private string eccPublicKeySt = null;
+
+    private string message = "";
+
+    private string signatureSt = "";
+
+    private byte[] eccPrivateKey = null;
+
+    private byte[] eccPublicKey = null;
+
+    private byte[] signature = null;
+
+    private bool generatingKeys = false;
+
+    private bool signing = false;
+
+    private bool verifying = false;
+
+    private int verified = 0;
+
+    protected override void OnInitialized()
+    {
+        engine = new CCryptoEngine("ClientSide GenerateECKeys.razor", (int)DateTime.Now.ToFileTimeUtc(), null);
+    }
+
+    private async Task GenerateECCKeys()
+    {
+        generatingKeys = true;
+        StateHasChanged();
+        await Task.Delay(100);
+
+        engine.GenerateECKeys(out eccPrivateKey, out eccPublicKey);
+        generatingKeys = false;
+
+        eccPrivateKeySt = eccPrivateKey.DumpArray();
+        eccPublicKeySt = eccPublicKey.DumpArray();
+
+        StateHasChanged();
+    }
+
+    private async Task Sign()
+    {
+        signing = true;
+        StateHasChanged();
+        await Task.Delay(100);
+
+        byte[] data = JsonSerializer.SerializeToUtf8Bytes(message);
+        signature = new byte[CCryptoEngine.EccSignatureSize];
+
+        engine.Sign(eccPrivateKey, data, ref signature);
+        signing = false;
+
+        signatureSt = signature.DumpArray();
+
+        StateHasChanged();
+        await Task.Delay(100);
+    }
+
+    private async Task Verify()
+    {
+        verifying = true;
+        StateHasChanged();
+        await Task.Delay(100);
+
+        byte[] data = JsonSerializer.SerializeToUtf8Bytes(message);
+
+        bool verificationResult = engine.VerifySignature(eccPublicKey, data, 0, data.Length, signature);
+
+        verifying = false;
+        if (verificationResult == false)
+            verified = -1;
+        else
+            verified = 1;
+
+        StateHasChanged();
+    }
+}

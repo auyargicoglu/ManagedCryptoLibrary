@@ -39,24 +39,38 @@ namespace ManagedCryptoLibrary
             hashOut = temp;
         }
 
-        public bool GenerateRandomNumber(ref byte[]randomNumber)
+        public bool GenerateRandomNumber(int length, out byte[]randomNumber)
         {
-            byte[] intermediateArray = new byte[20];
+            const int randomNumberBlockSize = 32;
+            int remaining;
+            int offset;
 
-            randomNumber = hashSeed.SubArray(0, 20);
-            rngSeed.NextBytes(intermediateArray);
-            hashSeed.CopyIn(0, intermediateArray, 0, 20);
+            int numberOfBlocks = (length + randomNumberBlockSize - 1) / randomNumberBlockSize;
+            byte[] intermediateArray = new byte[randomNumberBlockSize];
 
-            SHA512.Sha512Compute(hashSeed, 0, hashSeed.Length, ref hashOut, 0, out int _);
+            randomNumber = new byte[length];
+            remaining = length;
+            offset = 0;
 
-            byte[] temp = hashSeed;
-            hashSeed = hashOut;
-            hashOut = temp;
+            for (int i = 0; i < numberOfBlocks; i++, remaining -= randomNumberBlockSize, offset += randomNumberBlockSize)
+            {
+                int blockLength = remaining > randomNumberBlockSize ? randomNumberBlockSize : remaining;
+
+                randomNumber.CopyIn(offset, hashSeed, 0, blockLength);
+                rngSeed.NextBytes(intermediateArray);
+                hashSeed.CopyIn(0, intermediateArray, 0, intermediateArray.Length);
+
+                SHA512.Sha512Compute(hashSeed, 0, hashSeed.Length, ref hashOut, 0, out int _);
+
+                byte[] temp = hashSeed;
+                hashSeed = hashOut;
+                hashOut = temp;
+            }
 
             return true;
         }
 
-        public bool GenerateIV(ref byte[] iv)
+        public bool GenerateIV(out byte[] iv)
         {
             byte[] intermediateArray = new byte[16];
 

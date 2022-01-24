@@ -229,7 +229,7 @@ namespace ManagedCryptoLibrary
 
         private byte[] s;
 
-        private const int BLOCK_SIZE = 16;
+        public const int BLOCK_SIZE = 16;
 
         private byte[] IV;
 
@@ -444,7 +444,7 @@ namespace ManagedCryptoLibrary
             }
         }
 
-        public bool AesEndecrypt(byte[] iv, byte[] key, ref byte[] data, int offset, int length)
+        public bool AesEndecrypt(byte[] iv, byte[] key, byte[] data, int offset, int length)
         {
             int numberOfBlocks = (length + 15) / 16;
 
@@ -462,7 +462,6 @@ namespace ManagedCryptoLibrary
 
             if (offset + length > data.Length)
                 return false;
-
 
             if (Initialize(key, iv) == false)
                 return false;

@@ -264,11 +264,8 @@ namespace ManagedCryptoLibrary
             rng.NextBytes(randomBytes);
             this.data = new UInt32[n];
 
-            //for (int i = 0; i < length; i++)
-            //    this.data[i] = BitConverter.ToUInt32(randomBytes, i * 4);
-
             for (int i = 0; i < n; i++)
-                this.data[i] = (uint)(i * i * i + i) + 0xA0BBC2EFU;
+                this.data[i] = BitConverter.ToUInt32(randomBytes, i * 4);
 
             if (n > 0 && m > 0)
                 this.data[n - 1] &= (uint)(1 << m) - 1U;

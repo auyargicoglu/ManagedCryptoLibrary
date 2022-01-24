@@ -177,21 +177,21 @@ namespace ManagedCryptoLibrary
 
             byte[] randomNumber0 = null;
 
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("0. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("1. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("2. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("3. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("4. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("5. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("6. " + randomNumber0.DumpArray());
-            cryptoEngine0.GenerateRandomNumber(ref randomNumber0);
+            cryptoEngine0.GenerateRandomNumber(20, out randomNumber0);
             Console.WriteLine("7. " + randomNumber0.DumpArray());
 
             byte[] key = new byte[32];
@@ -210,12 +210,12 @@ namespace ManagedCryptoLibrary
             Console.WriteLine("Kripto oncesi:");
             Console.WriteLine(data.DumpArray());
 
-            cryptoEngine0.AesEndecrypt(iv, key, ref data, 0, data.Length);
+            cryptoEngine0.AesEndecrypt(iv, key, data, 0, data.Length);
 
             Console.WriteLine("Kriptolama sonrasi:");
             Console.WriteLine(data.DumpArray());
 
-            cryptoEngine0.AesEndecrypt(iv, key, ref data, 0, data.Length);
+            cryptoEngine0.AesEndecrypt(iv, key, data, 0, data.Length);
 
             Console.WriteLine("Kripto cozme sonrasi:");
             Console.WriteLine(data.DumpArray());
@@ -238,7 +238,7 @@ namespace ManagedCryptoLibrary
             for (int i = 0; i < data.Length; i++)
                 data[i] = 0;
 
-            cryptoEngine.AesEndecrypt(iv, key, ref data, 0, data.Length);
+            cryptoEngine.AesEndecrypt(iv, key, data, 0, data.Length);
 
             Console.WriteLine("Kriptolama sonrasi:");
             Console.WriteLine(data.DumpArray());
@@ -278,16 +278,16 @@ namespace ManagedCryptoLibrary
             Console.WriteLine(sessionKey1.DumpArray());
 
             byte[] iv = null;
-            cryptoEngine0.GenerateIV(ref iv);
+            cryptoEngine0.GenerateIV(out iv);
 
             byte[] data = new byte[631];
             for (int i = 0; i < data.Length; i++)
                 data[i] = (byte)((i * i * i + i * i + 0x32) & (0xFF));
 
             byte[] dataToBeEncrypted = data.Clone() as byte[];
-            cryptoEngine0.AesEndecrypt(iv, sessionKey0, ref dataToBeEncrypted, 13, 529);
+            cryptoEngine0.AesEndecrypt(iv, sessionKey0, dataToBeEncrypted, 13, 529);
 
-            cryptoEngine1.AesEndecrypt(iv, sessionKey1, ref dataToBeEncrypted, 13, 529);
+            cryptoEngine1.AesEndecrypt(iv, sessionKey1, dataToBeEncrypted, 13, 529);
 
             bool testOk = true;
             int errIndex = -1;

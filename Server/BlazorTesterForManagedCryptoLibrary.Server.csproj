@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Client\BlazorTesterForManagedCryptoLibrary.Client.csproj" />
+    <ProjectReference Include="..\ManagedCryptoLibrary\ManagedCryptoLibrary.csproj" />
     <ProjectReference Include="..\Shared\BlazorTesterForManagedCryptoLibrary.Shared.csproj" />
   </ItemGroup>
 

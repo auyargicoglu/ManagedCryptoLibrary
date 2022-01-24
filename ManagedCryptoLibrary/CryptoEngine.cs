@@ -19,6 +19,12 @@ namespace ManagedCryptoLibrary
 {
     public class CCryptoEngine : IDisposable
     {
+        public const int AesKeySize = 32;
+
+        public const int AesIvSize = 16;
+
+        public const int EccSignatureSize = 128;
+
         private Random rng;
 
         private string owner;
@@ -89,23 +95,23 @@ namespace ManagedCryptoLibrary
 
         #region AES Functions
 
-        public bool AesEndecrypt(byte[] iv, byte[] key, ref byte[] data, int offset, int length)
+        public bool AesEndecrypt(byte[] iv, byte[] key, byte[] data, int offset, int length)
         {
-            return aesEndecrypter.AesEndecrypt(iv, key, ref data, offset, length);
+            return aesEndecrypter.AesEndecrypt(iv, key, data, offset, length);
         }
 
         #endregion
 
         #region Random numberand aes iv generation
 
-        public bool GenerateRandomNumber(ref byte[] randomNumber)
+        public bool GenerateRandomNumber(int length, out byte[] randomNumber)
         {
-            return randomNumberGenerator.GenerateRandomNumber(ref randomNumber);
+            return randomNumberGenerator.GenerateRandomNumber(length, out randomNumber);
         }
 
-        public bool GenerateIV(ref byte[] iv)
+        public bool GenerateIV(out byte[] iv)
         {
-            return randomNumberGenerator.GenerateIV(ref iv);
+            return randomNumberGenerator.GenerateIV(out iv);
         }
 
         #endregion
@@ -146,7 +152,7 @@ namespace ManagedCryptoLibrary
 
         #region EC key generation function
 
-        public bool GenerateECKeys(ref byte[] outPrivateKey, ref byte[] outPublicKey)
+        public bool GenerateECKeys(out byte[] outPrivateKey, out byte[] outPublicKey)
         {
             if (ellipticCurve.GenerateECKeys(out outPrivateKey, out outPublicKey) == false)
                 return false;
