@@ -64,27 +64,27 @@
         <br />
         <button type="submit" @onclick="@(async () => { await Verify(); })">Verify</button>
         <br />
-    }
 
-    @if (verifying == true)
-    {
-        <p><em>Verifiying ...</em></p>
-        <hr />
-    }
-    else if (verified == 0)
-    {
-        <p>Verification not checked</p>
-        <hr />
-    }
-    else if (verified > 0)
-    {
-        <p>Verified</p>
-        <hr />
-    }
-    else
-    {
-        <p>Verification Failed</p>
-        <hr />
+        @if (verifying == true)
+        {
+            <p><em>Verifiying ...</em></p>
+            <hr />
+        }
+        else if (verified == 0)
+        {
+            <p>Verification not checked</p>
+            <hr />
+        }
+        else if (verified > 0)
+        {
+            <p>Verified</p>
+            <hr />
+        }
+        else
+        {
+            <p>Verification Failed</p>
+            <hr />
+        }
     }
 
 }
